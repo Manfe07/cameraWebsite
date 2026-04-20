@@ -3,7 +3,7 @@
 This is a flask website to display Images from Webcams and timelaps, dependen on a .yaml config.
 
 
-## Sample cameras.yaml
+## Sample data/cameras.yaml
 ```yaml
 - name: "Dummy" # name of camera
   url: "" # camera-image url
@@ -33,9 +33,11 @@ services:
     restart: unless-stopped
 
     volumes:
-      - ./cam/logs:/logs:rw
-      - ./cam/output:/static/output:ro
+      - ./data/logs:/logs:rw
+      - ./data/config:/config:ro
+      - ./data/output:/static/output:ro
       - /etc/localtime:/etc/localtime:ro
+
     environment:
       - TZ="Europe/Berlin"
     
@@ -63,10 +65,11 @@ services:
     restart: unless-stopped
 
     volumes:
-      - ./cam/timelapse:/archive:rw
-      - ./cam/output:/output:rw
-      - ./cam/config:/config:ro
+      - ./data/timelapse:/archive:rw
+      - ./data/output:/output:rw
+      - ./data/config:/config:ro
       - /etc/localtime:/etc/localtime:ro
+
     command: python app.py
 
 networks:
