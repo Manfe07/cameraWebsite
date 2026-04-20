@@ -1,0 +1,15 @@
+- name: "Dummy" # name of camera
+  url: "" # camera-image url
+  interval: 5 # Capture intervall in minutes
+  timelapse: True # create timelapse every night
+  website:
+   picture: True # display camera on website
+   timelapse: True # display timelapse on website
+
+- name: "Dummy"
+  url: ""
+  interval: 5
+  timelapse: True
+  website:
+   picture: True
+   timelapse: True

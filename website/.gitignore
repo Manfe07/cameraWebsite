@@ -1,0 +1,7 @@
+venv
+__pycache__
+timelapse
+static/output
+archive
+output
+app/config/cameras.yaml

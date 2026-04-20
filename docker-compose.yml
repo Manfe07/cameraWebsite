@@ -1,0 +1,57 @@
+version: '3.4'
+
+services:
+  birdstalker-flask:
+    build: ./website
+    restart: unless-stopped
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+
+    volumes:
+      - ./data/logs:/logs:rw
+      - ./data/config:/config:ro
+      - ./data/output:/static/output:ro
+      - /etc/localtime:/etc/localtime:ro
+    #ports:
+    #  - 5020:8000
+    environment:
+      - TZ="Europe/Berlin"
+    #command: python app.py
+
+    command: gunicorn -w 1
+            -b :8000 app:app \
+            --access-logfile ./logs/log.txt \
+            --log-level info \
+            --timeout 90 \
+            --workers 25 \
+            --worker-class gevent \
+            --debug=True
+            
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cameraWebsite.rule=Host(`camera.manuel-fehren.de`)"
+      - "traefik.http.routers.cameraWebsite.entrypoints=websecure"
+      - "traefik.http.services.cameraWebsite.loadbalancer.server.port=8000"
+      - "traefik.http.routers.cameraWebsite.service=cameraWebsite"
+      - "traefik.http.routers.cameraWebsite.tls.certresolver=production"
+    networks:
+      - traefik-net
+
+
+  bird-stalker-crawler:
+    build: ./crawler
+    restart: unless-stopped
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+
+    volumes:
+      - ./data/timelapse:/archive:rw
+      - ./data/output:/output:rw
+      - ./data/config:/config:ro
+      - /etc/localtime:/etc/localtime:ro
+    command: python app.py
+
+networks:
+  traefik-net:
+    external: true

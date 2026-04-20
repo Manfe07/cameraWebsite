@@ -1,0 +1,4 @@
+APScheduler
+pillow
+requests
+pyyaml
