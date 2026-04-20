@@ -3,7 +3,7 @@
 This is a flask website to display Images from Webcams and timelaps, dependen on a .yaml config.
 
 
-## Sample data/cameras.yaml
+## Sample ```data/cameras.yaml```
 ```yaml
 - name: "Dummy" # name of camera
   url: "" # camera-image url
@@ -23,7 +23,7 @@ This is a flask website to display Images from Webcams and timelaps, dependen on
 
 ```
 
-## Sample docker-compose.yml
+## Sample ```docker-compose.yml```
 ```yaml
 version: '3.4'
 
